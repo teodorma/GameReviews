@@ -8,7 +8,6 @@
         public string PasswordHash { get; set; }
         public string Role { get; set; }
 
-        // Navigational properties
         public UserProfile UserProfile { get; set; }
         public ICollection<Review> Reviews { get; set; }
     }
