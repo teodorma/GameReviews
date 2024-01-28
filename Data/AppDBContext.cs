@@ -1,6 +1,8 @@
 ﻿using GameReviews.Models;
 using Microsoft.EntityFrameworkCore;
-public class GameReviewContext : DbContext
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
+public class GameReviewContext : IdentityDbContext<User>
 {
     public GameReviewContext(DbContextOptions<GameReviewContext> options)
         : base(options)
@@ -9,7 +11,6 @@ public class GameReviewContext : DbContext
 
     public DbSet<Game> Games { get; set; }
     public DbSet<Review> Reviews { get; set; }
-    public DbSet<User> Users { get; set; }
     public DbSet<UserProfile> UserProfiles { get; set; }
     public DbSet<Publisher> Publishers { get; set; }
     public DbSet<Category> Categories { get; set; }
@@ -19,9 +20,10 @@ public class GameReviewContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<User>()
-            .HasOne(u => u.UserProfile)
-            .WithOne(up => up.User)
-            .HasForeignKey<UserProfile>(up => up.UserId);
+             .HasOne(u => u.UserProfile)
+             .WithOne(up => up.User)
+             .HasForeignKey<UserProfile>(up => up.UserId);
+
 
         modelBuilder.Entity<Game>()
             .HasOne(g => g.Publisher)
@@ -42,5 +44,10 @@ public class GameReviewContext : DbContext
             .HasOne(r => r.User)
             .WithMany(u => u.Reviews)
             .HasForeignKey(r => r.UserId);
+        modelBuilder.Entity<Review>()
+            .HasOne(r => r.User)
+            .WithMany(u => u.Reviews)
+            .HasForeignKey(r => r.UserId);
+
     }
 }

@@ -43,20 +43,20 @@ public class UserProfileController : ControllerBase
 
     // PUT: api/UserProfile/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutUserProfile(int id, UserProfile userProfile)
+    public async Task<IActionResult> PutUser(string id, User user)
     {
-        if (id != userProfile.UserId)
+        if (id != user.Id)
         {
             return BadRequest();
         }
-        _context.Entry(userProfile).State = EntityState.Modified;
+        _context.Entry(user).State = EntityState.Modified;
         try
         {
             await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!_context.UserProfiles.Any(e => e.UserId == id))
+            if (!_context.Users.Any(e => e.Id == id))
             {
                 return NotFound();
             }
@@ -67,6 +67,7 @@ public class UserProfileController : ControllerBase
         }
         return NoContent();
     }
+
 
     // DELETE: api/UserProfile/5
     [HttpDelete("{id}")]

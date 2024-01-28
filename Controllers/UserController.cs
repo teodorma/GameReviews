@@ -43,7 +43,7 @@ public class UserController : ControllerBase
 
     // PUT: api/User/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutUser(int id, User user)
+    public async Task<IActionResult> PutUser(string id, User user)
     {
         if (id != user.Id)
         {
@@ -65,8 +65,10 @@ public class UserController : ControllerBase
                 throw;
             }
         }
+
         return NoContent();
     }
+
 
     // DELETE: api/User/5
     [HttpDelete("{id}")]
