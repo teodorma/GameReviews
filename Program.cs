@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GameReviews.Models;
 using Microsoft.AspNetCore.Identity;
-using GameReviews.Models; 
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +13,14 @@ builder.Services.AddDbContext<GameReviewContext>(options =>
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<GameReviewContext>()
     .AddDefaultTokenProviders();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder.WithOrigins("http://localhost:4200")
+                          .AllowAnyMethod()
+                          .AllowAnyHeader()
+                          .AllowCredentials()); 
+});
 
 var app = builder.Build();
 
@@ -25,6 +33,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
