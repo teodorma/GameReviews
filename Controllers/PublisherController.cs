@@ -1,84 +1,51 @@
-﻿using GameReviews.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GameReviews.Data;
+using GameReviews.Services.Publishers;
+using GameReviews.Models.Publishers;
+
 [Route("api/[controller]")]
 [ApiController]
 public class PublisherController : ControllerBase
 {
-    private readonly GameReviewContext _context;
+    private readonly IPublisherService _publishersService;
 
-    public PublisherController(GameReviewContext context)
+    public PublisherController(IPublisherService context)
     {
-        _context = context;
+        _publishersService = context;
     }
 
-    // GET: api/Publisher
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Publisher>>> GetPublishers()
+    public async Task<IEnumerable<PublisherDTO>> Getpublishers()
     {
-        return await _context.Publishers.ToListAsync();
+        return await _publishersService.GetPublisher();
     }
 
-    // GET: api/Publisher/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Publisher>> GetPublisher(int id)
+    public async Task<PublisherDTO> GetPublisher(int id)
     {
-        var publisher = await _context.Publishers.FindAsync(id);
-        if (publisher == null)
-        {
-            return NotFound();
-        }
-        return publisher;
+        return await _publishersService.GetPublisher(id);
+
     }
 
-    // POST: api/Publisher
     [HttpPost]
-    public async Task<ActionResult<Publisher>> PostPublisher(Publisher publisher)
+    public async Task<ActionResult> CreatePublisher(PublisherDTO Publisher)
     {
-        _context.Publishers.Add(publisher);
-        await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetPublisher), new { id = publisher.Id }, publisher);
+        await _publishersService.CreatePublisher(Publisher);
+        return Ok();
     }
 
-    // PUT: api/Publisher/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutPublisher(int id, Publisher publisher)
+    public async Task<IActionResult> PutPublisher(int id, PublisherDTO Publisher)
     {
-        if (id != publisher.Id)
-        {
-            return BadRequest();
-        }
-        _context.Entry(publisher).State = EntityState.Modified;
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!_context.Publishers.Any(e => e.Id == id))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-        return NoContent();
+        await _publishersService.PutPublisher(id, Publisher);
+        return Ok();
     }
 
-    // DELETE: api/Publisher/5
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeletePublisher(int id)
+    [HttpDelete]
+    public async Task<IActionResult> DeletePublisher(PublisherDTO nume)
     {
-        var publisher = await _context.Publishers.FindAsync(id);
-        if (publisher == null)
-        {
-            return NotFound();
-        }
-        _context.Publishers.Remove(publisher);
-        await _context.SaveChangesAsync();
-        return NoContent();
+        await _publishersService.DeletePublisher(nume);
+        return Ok();
     }
 }

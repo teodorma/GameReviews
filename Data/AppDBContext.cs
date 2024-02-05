@@ -1,12 +1,15 @@
 ﻿using GameReviews.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using GameReviews.Models.Categories;
+using GameReviews.Models.Publishers;
+
 namespace GameReviews.Data;
 public class GameReviewContext : IdentityDbContext<User>
 {
     public GameReviewContext(DbContextOptions<GameReviewContext> options)
         : base(options)
-    {
+    {   
     }
 
     public DbSet<Game> Games { get; set; }
@@ -48,6 +51,5 @@ public class GameReviewContext : IdentityDbContext<User>
             .HasOne(r => r.User)
             .WithMany(u => u.Reviews)
             .HasForeignKey(r => r.UserId);
-
     }
 }

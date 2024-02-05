@@ -1,118 +1,44 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using GameReviews.Models;
+using GameReviews.Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using GameReviews.Data;
+
 [Route("api/[controller]")]
 [Authorize]
 public class GameController : ControllerBase
 {
-    private readonly GameReviewContext _context;
+    private readonly IGamesService _gamesService;
 
-    public GameController(GameReviewContext context)
+    public GameController(IGamesService gamesService)
     {
-        _context = context;
+        _gamesService = gamesService;
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Game>>> GetGames()
+    public async Task<ActionResult<IEnumerable<GameDTO>>> GetGames()
     {
-        return await _context.Games.ToListAsync();
+        var gamesDto = await _gamesService.GetGamesAsync();
+        return Ok(gamesDto);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Game>> GetGame(int id)
+    public async Task<ActionResult<GameDTO>> GetGame(int id)
     {
-        var game = await _context.Games.FindAsync(id);
-        if (game == null)
+        var gameDto = await _gamesService.GetGameAsync(id);
+        if (gameDto == null)
         {
             return NotFound();
         }
-        return game;
+        return gameDto;
     }
 
     [HttpPost]
-    public async Task<ActionResult<Game>> PostGame(Game game)
+    public async Task<IActionResult> PostGame([FromBody] GameDTO gameDto)
     {
-        _context.Games.Add(game);
-        await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetGame), new { id = game.Id }, game);
+        await _gamesService.CreateGameAsync(gameDto);
+        return Ok();
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutGame(int id, Game game)
-    {
-        if (id != game.Id)
-        {
-            return BadRequest();
-        }
-        _context.Entry(game).State = EntityState.Modified;
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!_context.Games.Any(e => e.Id == id))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-        return NoContent();
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteGame(int id)
-    {
-        var game = await _context.Games.FindAsync(id);
-        if (game == null)
-        {
-            return NotFound();
-        }
-        _context.Games.Remove(game);
-        await _context.SaveChangesAsync();
-        return NoContent();
-    }
-
-    [HttpGet("ByGenre")]
-    public async Task<ActionResult<IEnumerable<Game>>> GetGamesByPlatform(string platform)
-    {
-        var games = await _context.Games.Where(g => g.Platform == platform).ToListAsync();
-        return games;
-    }
-
-    [HttpGet("ByPublisher")]
-    public async Task<ActionResult<IEnumerable<IGrouping<int, Game>>>> GetGamesGroupedByPublisher()
-    {
-        var gamesGroupedByPublisher = await _context.Games
-            .GroupBy(g => g.PublisherId)
-            .ToListAsync();
-        return gamesGroupedByPublisher;
-    }
-
-    [HttpGet("WithPublisher")]
-    public async Task<ActionResult<IEnumerable<object>>> GetGamesWithPublishers()
-    {
-        var gamesWithPublishers = await _context.Games
-            .Join(_context.Publishers,
-                  game => game.PublisherId,
-                  publisher => publisher.Id,
-                  (game, publisher) => new { Game = game, Publisher = publisher })
-            .ToListAsync();
-        return gamesWithPublishers;
-    }
-
-
-    [HttpGet("WithReviews")]
-    public async Task<ActionResult<IEnumerable<Game>>> GetGamesWithReviews()
-    {
-        var gamesWithReviews = await _context.Games
-            .Include(g => g.Reviews)
-            .ToListAsync();
-        return gamesWithReviews;
-    }
 }

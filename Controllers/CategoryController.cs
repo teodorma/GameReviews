@@ -1,8 +1,8 @@
-﻿using GameReviews.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GameReviews.Data;
-using GameReviews.Services;
+using GameReviews.Services.Categories;
+using GameReviews.Models.Categories;
 
 [Route("api/[controller]")]
 [ApiController]

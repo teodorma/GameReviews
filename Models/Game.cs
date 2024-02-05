@@ -1,4 +1,6 @@
-﻿namespace GameReviews.Models
+﻿using GameReviews.Models.Categories;
+using GameReviews.Models.Publishers;
+namespace GameReviews.Models
 {
     public class Game
     {

@@ -1,8 +1,8 @@
-﻿using GameReviews.Models;
+﻿using GameReviews.Models.Categories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace GameReviews.Repositories
+namespace GameReviews.Repositories.Categories
 {
     public interface ICategoriesRepository
     {
@@ -11,7 +11,7 @@ namespace GameReviews.Repositories
         Task<Category> findbyname(string name);
         Task PutCategory(int id, Category category);
         Task<IEnumerable<Category>> GetCategories();
-        Task <Category> findbyid(int id);   
+        Task<Category> findbyid(int id);
     }
 }
 

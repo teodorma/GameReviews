@@ -1,4 +1,4 @@
-﻿namespace GameReviews.Models
+﻿namespace GameReviews.Models.Categories
 {
     public class Category
     {

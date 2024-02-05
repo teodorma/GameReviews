@@ -4,10 +4,19 @@ using Microsoft.EntityFrameworkCore;
 using GameReviews.Data;
 using GameReviews.Services;
 using GameReviews.Repositories;
+using GameReviews.Services.Categories;
+using GameReviews.Repositories.Categories;
+using GameReviews.Services.Publishers;
+using GameReviews.Repositories.Publishers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
+builder.Services.AddScoped<IGamesRepository, GamesRepository>();
+builder.Services.AddScoped<IGamesService, GamesService>();
+builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
+builder.Services.AddScoped<IPublisherService, PublisherService>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -1,7 +1,7 @@
-﻿using GameReviews.Models;
+﻿using GameReviews.Models.Categories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GameReviews.Services
+namespace GameReviews.Services.Categories
 {
     public interface ICategoriesService
     {

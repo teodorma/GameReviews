@@ -1,15 +1,16 @@
 ﻿using GameReviews.Data;
-using GameReviews.Models;
+using GameReviews.Models.Categories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 
-namespace GameReviews.Repositories
+namespace GameReviews.Repositories.Categories
 {
     public class CategoriesRepository : ICategoriesRepository
-    {   
+    {
         private readonly GameReviewContext context;
-        public CategoriesRepository(GameReviewContext context) { 
+        public CategoriesRepository(GameReviewContext context)
+        {
             this.context = context;
         }
         public async Task CreateCategory(Category c)
