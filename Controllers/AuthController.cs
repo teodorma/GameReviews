@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using GameReviews.Models; // Înlocuiți cu namespace-ul corect pentru User
 using System.Threading.Tasks;
-
+using GameReviews.Data;
 [Route("api/[controller]")]
 [ApiController]
 public class AuthController : ControllerBase

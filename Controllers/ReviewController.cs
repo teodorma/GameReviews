@@ -1,7 +1,7 @@
 ﻿using GameReviews.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using GameReviews.Data;
 [Route("api/[controller]")]
 [ApiController]
 public class ReviewController : ControllerBase

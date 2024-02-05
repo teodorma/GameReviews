@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using GameReviews.Models;
 using Microsoft.AspNetCore.Authorization;
-
+using GameReviews.Data;
 [Route("api/[controller]")]
 [Authorize]
 public class GameController : ControllerBase
