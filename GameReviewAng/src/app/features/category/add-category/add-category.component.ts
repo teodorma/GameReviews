@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+
 
 @Component({
   selector: 'app-add-category',
@@ -8,5 +9,4 @@ import { Component } from '@angular/core';
   styleUrl: './add-category.component.css'
 })
 export class AddCategoryComponent {
-
 }

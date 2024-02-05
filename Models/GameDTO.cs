@@ -9,5 +9,6 @@
         public string Developer { get; set; }
         public double AverageRating { get; set; }
         public string CategoryName { get; set; }
-       }
+        public string PublisherName { get; set; }
+    }
 }

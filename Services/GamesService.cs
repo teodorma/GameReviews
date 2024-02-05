@@ -56,7 +56,7 @@ namespace GameReviews.Services
         public async Task CreateGameAsync(GameDTO gameDto)
         {
             var category = await _categoriesRepository.findbyname(gameDto.CategoryName);
-            var publisher = await _publisherRepository.findbyname(gameDto.CategoryName);
+            var publisher = await _publisherRepository.findbyname(gameDto.PublisherName);
             var game = new Game
             {
                 Title = gameDto.Title,
@@ -66,8 +66,7 @@ namespace GameReviews.Services
                 Developer = gameDto.Developer,
                 AverageRating = gameDto.AverageRating,
                 Category = category,
-
-                Publisher = new Publisher() { }
+                Publisher = publisher
             };
 
             await _gamesRepository.AddGameAsync(game);
