@@ -1,16 +1,18 @@
 ﻿using GameReviews.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using GameReviews.Data;
+using GameReviews.Services;
 
 [Route("api/[controller]")]
 [ApiController]
 public class CategoryController : ControllerBase
 {
-    private readonly GameReviewContext _context;
+    private readonly ICategoriesService _categoriesService;
 
-    public CategoryController(GameReviewContext context)
+    public CategoryController(ICategoriesService context)
     {
-        _context = context;
+        _categoriesService = context;
     }
 
     // GET: api/Category
@@ -34,11 +36,12 @@ public class CategoryController : ControllerBase
 
     // POST: api/Category
     [HttpPost]
-    public async Task<ActionResult<Category>> PostCategory(Category category)
+    public async Task<ActionResult> PostCategory(CategoryDTO category)
     {
-        _context.Categories.Add(category);
+        var categorie = new Category() { Name  = category.name , Description = category.description };
+        _context.Categories.Add(categorie);
         await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetCategory), new { id = category.Id }, category);
+        return Ok();
     }
 
     // PUT: api/Category/5

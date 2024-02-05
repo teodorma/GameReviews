@@ -1,7 +1,7 @@
 ﻿using GameReviews.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-
+namespace GameReviews.Data;
 public class GameReviewContext : IdentityDbContext<User>
 {
     public GameReviewContext(DbContextOptions<GameReviewContext> options)

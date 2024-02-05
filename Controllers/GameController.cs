@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GameReviews.Models;
+using Microsoft.AspNetCore.Authorization;
 
 [Route("api/[controller]")]
+[Authorize]
 public class GameController : ControllerBase
 {
     private readonly GameReviewContext _context;
